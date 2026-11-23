@@ -13,27 +13,46 @@ Desenvolvedor no Rio de Janeiro, com base em dados e foco em backend. Construo a
 ## 🚀 Projetos
 
 ### 🛒 [Plataforma de dados para e-commerce com agente de IA](https://github.com/diogorblessa/projeto-pipeline-ELT-engenharia-supabase-dbt)
-Monorepo em Python que extrai dados de um bucket S3, carrega no PostgreSQL Supabase e transforma com dbt em camadas Bronze, Silver e Gold. Sobre essa base rodam duas aplicações: um dashboard em Streamlit e um bot no Telegram que usa a API do Claude com tool use para responder perguntas em linguagem natural consultando o banco, com acesso restrito a consultas de leitura.
+Pipeline ELT de ponta a ponta: extrai arquivos Parquet de um bucket S3, carrega no PostgreSQL (Supabase) e transforma com dbt até um modelo dimensional com data marts por área de negócio (Vendas, Customer Success e Pricing). Sobre essa base rodam duas aplicações: um dashboard em Streamlit com uma página por diretoria e um agente no Telegram que usa a API do Claude com tool use para responder perguntas consultando o banco e gerar relatórios executivos.
 
-- 🧰 **Ferramentas**: Python, uv, boto3, SQLAlchemy, dbt, PostgreSQL, Streamlit, Claude API, python-telegram-bot, Docker
-- ✅ **Boas práticas**: testes com pytest usando mocks e SQLite em memória, lint com ruff, configuração tipada com pydantic-settings e segredos via `.env`
+- 🏗️ **Arquitetura**: monorepo com uv workspace e pacotes independentes para extração/carga e para transformação; arquitetura medalhão com Bronze (views que servem de contrato do dado bruto), Silver (limpeza, tipagem, deduplicação e integridade referencial) e Gold (dimensões, fatos e marts); agente com dois modos de execução, interativo por polling e standalone para agendamento via cron
+- 🧪 **Testes e qualidade de código**: testes unitários com pytest, isolando dependências externas com mocks de boto3 e SQLite em memória; lint e formatação com ruff
+- 🔒 **Segurança**: configuração tipada com pydantic-settings e `SecretStr`, credenciais só no `.env` e nunca nos logs; o agente executa apenas consultas de leitura (`SELECT`/`WITH`)
+- 🐳 **Reprodutibilidade**: ambiente em Docker e docker-compose e um script que roda carga e transformação em sequência
+- 📄 **Documentação**: especificação (PRD) para os modelos dbt, o dashboard e o agente, além do schema completo das tabelas Gold
+- 🧰 **Ferramentas**: Python, uv, boto3, pandas, SQLAlchemy, dbt, PostgreSQL, Streamlit, Claude API, python-telegram-bot, Docker, pytest, ruff
 
 ### 🏦 [Pipeline de reclamações contra bancos](https://github.com/diogorblessa/mvp_engenharia_de_dados_puc)
-Pipeline no Databricks que processa os dados públicos do consumidor.gov.br e entrega um modelo em esquema estrela para responder quais problemas mais crescem nas reclamações contra bancos. Inclui script local de download com validação e manifesto de linhagem, transformações em PySpark e documentação de cada tabela e coluna no Unity Catalog.
+Pipeline no Databricks que leva mais de 10 milhões de reclamações públicas do consumidor.gov.br do arquivo bruto até um esquema estrela, para responder quais problemas mais crescem nas reclamações contra bancos e se a resolução está piorando.
 
+- 🏗️ **Arquitetura**: arquitetura medalhão no Unity Catalog, com um notebook por etapa e responsabilidade única (ingestão, perfilamento, limpeza, modelagem, catálogo e análise) e um script local de download separado da plataforma
+- 🔁 **Idempotência**: toda gravação recria a tabela e o script de download pula arquivos já válidos, então qualquer etapa pode ser executada de novo sem duplicar dados
+- ✅ **Fail fast e qualidade de dados**: verificações com `assert` que interrompem a execução antes de gravar (nenhuma conversão perde valor, chaves únicas, integridade referencial, totais que batem entre camadas) e perfilamento com hipóteses testadas sobre os dados brutos
+- 🧭 **Rastreabilidade**: manifesto com o SHA-256 de cada arquivo de origem (linhagem desde a fonte), colunas de controle de ingestão e catálogo com a descrição de todas as tabelas e colunas
+- 🧩 **Modelagem**: chaves substitutas determinísticas com `xxhash64`, junk dimension e decisões de modelagem justificadas por evidências medidas nos dados
+- 🛠️ **Fluxo de desenvolvimento**: notebooks versionados no Git e sincronizados com o workspace via Git folder, desenvolvimento no VS Code com databricks-connect e commits semânticos com guia próprio
 - 🧰 **Ferramentas**: Databricks, PySpark, SQL, Delta Lake, Unity Catalog, databricks-connect, VS Code, uv
-- ✅ **Boas práticas**: verificações com `assert` que interrompem a execução quando algo não bate, commits semânticos com guia próprio e decisões de projeto documentadas
 
 ### 💳 [Previsão de churn de cartão de crédito](https://github.com/diogorblessa/mvp-credit-card-churn-parte-01)
-Modelo de classificação que prevê se um cliente vai cancelar o cartão, da análise exploratória e pré-processamento à modelagem e avaliação. Comparei vários algoritmos contra um baseline, otimizei hiperparâmetros com validação cruzada e salvei o pipeline final para reuso.
+Classificação binária supervisionada que prevê se um cliente vai cancelar o cartão, numa base desbalanceada (cerca de 16% de churn). O projeto vai da análise exploratória e do pré-processamento à modelagem, otimização e avaliação, chegando a F1 de 0,91 e ROC-AUC de 0,99 no conjunto de teste.
 
-- 🧰 **Ferramentas**: Python, pandas, scikit-learn, XGBoost, matplotlib, seaborn, joblib, Google Colab
+- 🔬 **Método**: baseline como piso a ser superado, comparação de 5 modelos de famílias diferentes com validação cruzada e otimização de hiperparâmetros com `RandomizedSearchCV`
+- 📏 **Métricas**: F1, recall e ROC-AUC da classe de churn em vez de acurácia, com avaliação final em dados não vistos, análise de erros e importância das variáveis
+- 🛡️ **Prevenção de vazamento de dados**: remoção de colunas derivadas do alvo, divisão estratificada antes de qualquer ajuste e pré-processamento dentro de um `Pipeline` com `ColumnTransformer`, ajustado só no treino
+- 🔁 **Reprodutibilidade**: semente única em todas as etapas, versões e hiperparâmetros registrados em metadados e pipeline final salvo com joblib para reuso
+- 🧪 **Análise exploratória**: hipóteses de negócio testadas e fechadas com evidência, tratamento de multicolinearidade, encoding, outliers por IQR, variáveis derivadas e transformação logarítmica
+- 🧰 **Ferramentas**: Python, pandas, NumPy, scikit-learn, XGBoost, matplotlib, seaborn, joblib, Google Colab
 - 📂 **Repositórios**: [Parte 1: análise exploratória e pré-processamento](https://github.com/diogorblessa/mvp-credit-card-churn-parte-01) e [Parte 2: modelagem e avaliação](https://github.com/diogorblessa/mvp-credit-card-churn-parte-02)
 
 ### 📋 [JobFlow](https://github.com/diogorblessa/jobflow)
-Aplicação para organizar candidaturas a vagas, criada na Imersão Engenharia de Software da Alura com o Google. O próximo passo é um agente de IA que compara cada vaga com o perfil do candidato.
+Plataforma para profissionais de tecnologia organizarem candidaturas a vagas, criada na Imersão Engenharia de Software da Alura com o Google. Integra uma aplicação web em React e TypeScript a um agente de IA em Python com Google ADK, que analisa de forma honesta e fundamentada a aderência do perfil do candidato aos requisitos de cada vaga.
 
-- 🧰 **Ferramentas**: React, TypeScript
+- 🖥️ **Frontend**: cadastro, edição, busca e filtro de candidaturas em 8 etapas do processo seletivo, alertas de prazo e perfil profissional; código organizado em componentes, serviços, tipos e utilitários, com persistência em `localStorage`
+- 🤖 **Agente**: separação de responsabilidades em módulos de configuração, prompt e ferramentas; skill com divulgação progressiva, carregada sob demanda; regra de ativação que pede só os dados que faltam; classificação de cada requisito em atendido, parcial ou lacuna e reanálise comparada à análise anterior
+- 🔒 **Segurança e menor privilégio**: o agente só tem ferramentas de leitura e escrita restritas a uma pasta, sem acesso a shell; chaves de API e análises com dados pessoais ficam fora do controle de versão
+- 🧪 **Testes**: suíte determinística com pytest, sem chamadas ao modelo, que valida o isolamento das ferramentas, a injeção da data no prompt, a carga da skill e a criação de diretórios
+- 📐 **Processo**: diretrizes de arquitetura documentadas para o agente e commits semânticos com guia próprio
+- 🧰 **Ferramentas**: React, TypeScript, Vite, Tailwind CSS, Python, Google ADK, uv, pytest
 
 ## 🛠️ Stack
 
