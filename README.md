@@ -24,10 +24,11 @@ Pipeline no Databricks que processa os dados públicos do consumidor.gov.br e en
 - 🧰 **Ferramentas**: Databricks, PySpark, SQL, Delta Lake, Unity Catalog, databricks-connect, VS Code, uv
 - ✅ **Boas práticas**: verificações com `assert` que interrompem a execução quando algo não bate, commits semânticos com guia próprio e decisões de projeto documentadas
 
-### 💳 Previsão de churn de cartão de crédito
-Modelo de classificação que prevê se um cliente vai cancelar o cartão, da [análise exploratória e pré-processamento](https://github.com/diogorblessa/mvp-credit-card-churn-parte-01) à [modelagem e avaliação](https://github.com/diogorblessa/mvp-credit-card-churn-parte-02). Comparei vários algoritmos contra um baseline, otimizei hiperparâmetros com validação cruzada e salvei o pipeline final para reuso.
+### 💳 [Previsão de churn de cartão de crédito](https://github.com/diogorblessa/mvp-credit-card-churn-parte-01)
+Modelo de classificação que prevê se um cliente vai cancelar o cartão, da análise exploratória e pré-processamento à modelagem e avaliação. Comparei vários algoritmos contra um baseline, otimizei hiperparâmetros com validação cruzada e salvei o pipeline final para reuso.
 
 - 🧰 **Ferramentas**: Python, pandas, scikit-learn, XGBoost, matplotlib, seaborn, joblib, Google Colab
+- 📂 **Repositórios**: [Parte 1: análise exploratória e pré-processamento](https://github.com/diogorblessa/mvp-credit-card-churn-parte-01) e [Parte 2: modelagem e avaliação](https://github.com/diogorblessa/mvp-credit-card-churn-parte-02)
 
 ### 📋 [JobFlow](https://github.com/diogorblessa/jobflow)
 Aplicação para organizar candidaturas a vagas, criada na Imersão Engenharia de Software da Alura com o Google. O próximo passo é um agente de IA que compara cada vaga com o perfil do candidato.
@@ -79,5 +80,3 @@ Aplicação para organizar candidaturas a vagas, criada na Imersão Engenharia d
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/diogorblessa/)
 [![Email](https://img.shields.io/badge/Email-D14836?style=flat&logo=gmail&logoColor=white)](mailto:diogorblessa@gmail.com)
- 
--->
