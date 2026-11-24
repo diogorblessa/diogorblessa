@@ -90,8 +90,7 @@ Plataforma para profissionais de tecnologia organizarem candidaturas a vagas, cr
 
 ## 📚 Estudando agora
 
-- 🐍 Django e desenvolvimento backend
-- 🟣 C# e .NET
+- 🟣 C# e .NET e desenvolvimento backend
 - 🏛️ Arquitetura de software
 - 🔄 DevOps e CI/CD
 - 🧠 Machine Learning e agentes de IA
