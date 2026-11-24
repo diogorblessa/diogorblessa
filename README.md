@@ -1,6 +1,6 @@
 # Olá, eu sou o Diogo 👋
 
-Desenvolvedor de software com foco em backend e 2 anos de experiência em serviços de integração com APIs REST, código modular com orientação a objetos, tratamento de exceções, testes automatizados e pipelines de dados com grandes volumes e com forte base em bancos relacionais com SQL Server, PostgreSQL e Oracle e otimização de consultas. Trabalhou em projetos de consultoria para cooperativas de crédito, fintechs, seguradoras e e-commerce, transformando requisitos de negócio em funcionalidades em ambiente ágil.
+Desenvolvedor de software com foco em backend e 2 anos de experiência em serviços de integração com APIs REST, código modular com orientação a objetos, tratamento de exceções, testes automatizados e pipelines de dados com grandes volumes e com forte base em bancos relacionais como SQL Server, PostgreSQL e Oracle e otimização de consultas. Trabalhou em projetos de consultoria para cooperativas de crédito, fintechs, seguradoras e e-commerce, transformando requisitos de negócio em funcionalidades em ambiente ágil.
 
 ## 💼 Experiência
 
