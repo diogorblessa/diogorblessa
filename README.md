@@ -55,17 +55,6 @@ Pipeline no Databricks que leva mais de 10 milhões de reclamações públicas d
 - 🛠️ **Fluxo de desenvolvimento**: notebooks versionados no Git e sincronizados com o workspace via Git folder, desenvolvimento no VS Code com databricks-connect e commits semânticos com guia próprio
 - 🧰 **Ferramentas**: Databricks, PySpark, SQL, Delta Lake, Unity Catalog, databricks-connect, VS Code, uv
 
-### 💳 [Previsão de churn de cartão de crédito](https://github.com/diogorblessa/mvp-credit-card-churn-parte-01)
-Classificação binária supervisionada que prevê se um cliente vai cancelar o cartão, numa base desbalanceada (cerca de 16% de churn). O projeto vai da análise exploratória e do pré-processamento à modelagem, otimização e avaliação, chegando a F1 de 0,91 e ROC-AUC de 0,99 no conjunto de teste.
-
-- 🔬 **Método**: baseline como piso a ser superado, comparação de 5 modelos de famílias diferentes com validação cruzada e otimização de hiperparâmetros com `RandomizedSearchCV`
-- 📏 **Métricas**: F1, recall e ROC-AUC da classe de churn em vez de acurácia, com avaliação final em dados não vistos, análise de erros e importância das variáveis
-- 🛡️ **Prevenção de vazamento de dados**: remoção de colunas derivadas do alvo, divisão estratificada antes de qualquer ajuste e pré-processamento dentro de um `Pipeline` com `ColumnTransformer`, ajustado só no treino
-- 🔁 **Reprodutibilidade**: semente única em todas as etapas, versões e hiperparâmetros registrados em metadados e pipeline final salvo com joblib para reuso
-- 🧪 **Análise exploratória**: hipóteses de negócio testadas e fechadas com evidência, tratamento de multicolinearidade, encoding, outliers por IQR, variáveis derivadas e transformação logarítmica
-- 🧰 **Ferramentas**: Python, pandas, NumPy, scikit-learn, XGBoost, matplotlib, seaborn, joblib, Google Colab
-- 📂 **Repositórios**: [Parte 1: análise exploratória e pré-processamento](https://github.com/diogorblessa/mvp-credit-card-churn-parte-01) e [Parte 2: modelagem e avaliação](https://github.com/diogorblessa/mvp-credit-card-churn-parte-02)
-
 ## 🛠️ Stack
 
 **💻 Linguagens e frameworks**
