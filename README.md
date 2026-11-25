@@ -132,8 +132,7 @@ Classificação binária supervisionada que prevê se um cliente vai cancelar o 
 
 - 💻 Bacharelado em Ciência da Computação, Universidade Veiga de Almeida (em andamento)
 - 📈 Pós-graduação em Data Science and Analytics, PUC-Rio
-- 🏭 Graduação em Engenharia de Produção, Universidade Veiga de Almeida
-- 🧑‍💻 Imersão Engenharia de Software: Dev na Era da IA (Alura + Google for Startups)
+- 🏭 Bacharelado em Engenharia de Produção, Universidade Veiga de Almeida
 
 ## 📚 Estudando agora
 
