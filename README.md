@@ -12,6 +12,28 @@ Desenvolvedor de software com foco em backend e 2 anos de experiência em integr
 
 ## 🚀 Projetos
 
+### 💰 [Mini core bancário em .NET](https://github.com/diogorblessa/core-bancario-dotnet)
+🚧 Em andamento, entregue por fases. Um mini core bancário cujo núcleo é um ledger contábil por partidas dobradas: os eventos do ledger alimentam uma conciliação contra um extrato externo, e um relatório regulatório de crédito, inspirado no Documento 3040 (SCR) do Banco Central, é gerado a partir dos saldos dos contratos no ledger. Todos os dados são fictícios.
+
+- 🏗️ **Arquitetura**: monolito modular em que cada módulo tem quatro projetos (Domain, Application, Infrastructure e Contracts) e schema próprio no SQL Server, e um módulo só enxerga o Contracts de outro; conciliação e relatório regulatório viram processos próprios (serviço e Worker Service) conforme as fases avançam
+- 📒 **Ledger**: toda transação contábil fecha débitos e créditos em zero, com idempotência por chave, concorrência otimista, períodos contábeis e outbox gravado na mesma transação
+- 📨 **Mensageria e resiliência**: eventos publicados no RabbitMQ por um outbox relay e consumidos pela conciliação, com retry e fila de mensagens mortas
+- 📄 **Relatório regulatório**: Worker Service que calcula a posição de crédito por cliente, valida contra a contabilidade e contra um XSD e envia o XML para o S3, emulado localmente pelo Floci
+- 🧪 **Testes e qualidade de código**: TDD com xUnit v3, testes de integração com containers reais via Testcontainers, warnings tratados como erro e estilo verificado com dotnet format
+- 🔁 **CI e fluxo de trabalho**: GitHub Actions rodando format, build, testes e build do Docker Compose; main protegida, uma branch e um pull request com checklist de autorrevisão por tarefa, Conventional Commits e ADRs para as decisões de arquitetura
+- 🗺️ **Fases**: estrutura do repositório, CI, Docker Compose e ADRs concluídos; em seguida vêm ledger, conciliação, crédito com relatório regulatório e, opcionalmente, frontend em React e deploy na AWS
+- 🧰 **Ferramentas**: C#, .NET 11, ASP.NET Core, SQL Server, RabbitMQ, xUnit, Testcontainers, Docker, GitHub Actions, Floci
+
+### 📋 [JobFlow](https://github.com/diogorblessa/jobflow)
+Plataforma para profissionais de tecnologia organizarem candidaturas a vagas, criada na Imersão Engenharia de Software da Alura com o Google. Integra uma aplicação web em React e TypeScript a um agente de IA em Python com Google ADK, que analisa de forma honesta e fundamentada a aderência do perfil do candidato aos requisitos de cada vaga.
+
+- 🖥️ **Frontend**: cadastro, edição, busca e filtro de candidaturas em 8 etapas do processo seletivo, alertas de prazo e perfil profissional; código organizado em componentes, serviços, tipos e utilitários, com persistência em `localStorage`
+- 🤖 **Agente**: separação de responsabilidades em módulos de configuração, prompt e ferramentas; skill com divulgação progressiva, carregada sob demanda; regra de ativação que pede só os dados que faltam; classificação de cada requisito em atendido, parcial ou lacuna e reanálise comparada à análise anterior
+- 🔒 **Segurança e menor privilégio**: o agente só tem ferramentas de leitura e escrita restritas a uma pasta, sem acesso a shell; chaves de API e análises com dados pessoais ficam fora do controle de versão
+- 🧪 **Testes**: suíte determinística com pytest, sem chamadas ao modelo, que valida o isolamento das ferramentas, a injeção da data no prompt, a carga da skill e a criação de diretórios
+- 📐 **Processo**: diretrizes de arquitetura documentadas para o agente e commits semânticos com guia próprio
+- 🧰 **Ferramentas**: React, TypeScript, Vite, Tailwind CSS, Python, Google ADK, uv, pytest
+
 ### 🛒 [Plataforma de dados para e-commerce com agente de IA](https://github.com/diogorblessa/projeto-pipeline-ELT-engenharia-supabase-dbt)
 Pipeline ELT de ponta a ponta: extrai arquivos Parquet de um bucket S3, carrega no PostgreSQL (Supabase) e transforma com dbt até um modelo dimensional com data marts por área de negócio (Vendas, Customer Success e Pricing). Sobre essa base rodam duas aplicações: um dashboard em Streamlit com uma página por diretoria e um agente no Telegram que usa a API do Claude com tool use para responder perguntas consultando o banco e gerar relatórios executivos.
 
@@ -44,16 +66,6 @@ Classificação binária supervisionada que prevê se um cliente vai cancelar o 
 - 🧰 **Ferramentas**: Python, pandas, NumPy, scikit-learn, XGBoost, matplotlib, seaborn, joblib, Google Colab
 - 📂 **Repositórios**: [Parte 1: análise exploratória e pré-processamento](https://github.com/diogorblessa/mvp-credit-card-churn-parte-01) e [Parte 2: modelagem e avaliação](https://github.com/diogorblessa/mvp-credit-card-churn-parte-02)
 
-### 📋 [JobFlow](https://github.com/diogorblessa/jobflow)
-Plataforma para profissionais de tecnologia organizarem candidaturas a vagas, criada na Imersão Engenharia de Software da Alura com o Google. Integra uma aplicação web em React e TypeScript a um agente de IA em Python com Google ADK, que analisa de forma honesta e fundamentada a aderência do perfil do candidato aos requisitos de cada vaga.
-
-- 🖥️ **Frontend**: cadastro, edição, busca e filtro de candidaturas em 8 etapas do processo seletivo, alertas de prazo e perfil profissional; código organizado em componentes, serviços, tipos e utilitários, com persistência em `localStorage`
-- 🤖 **Agente**: separação de responsabilidades em módulos de configuração, prompt e ferramentas; skill com divulgação progressiva, carregada sob demanda; regra de ativação que pede só os dados que faltam; classificação de cada requisito em atendido, parcial ou lacuna e reanálise comparada à análise anterior
-- 🔒 **Segurança e menor privilégio**: o agente só tem ferramentas de leitura e escrita restritas a uma pasta, sem acesso a shell; chaves de API e análises com dados pessoais ficam fora do controle de versão
-- 🧪 **Testes**: suíte determinística com pytest, sem chamadas ao modelo, que valida o isolamento das ferramentas, a injeção da data no prompt, a carga da skill e a criação de diretórios
-- 📐 **Processo**: diretrizes de arquitetura documentadas para o agente e commits semânticos com guia próprio
-- 🧰 **Ferramentas**: React, TypeScript, Vite, Tailwind CSS, Python, Google ADK, uv, pytest
-
 ## 🛠️ Stack
 
 **💻 Linguagens e frameworks**
@@ -62,6 +74,7 @@ Plataforma para profissionais de tecnologia organizarem candidaturas a vagas, cr
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
 ![C#](https://img.shields.io/badge/C%23-512BD4?style=flat&logo=csharp&logoColor=white)
 ![.NET](https://img.shields.io/badge/.NET-512BD4?style=flat&logo=dotnet&logoColor=white)
+![ASP.NET Core](https://img.shields.io/badge/ASP.NET_Core-512BD4?style=flat&logo=dotnet&logoColor=white)
 ![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB)
 ![SQL](https://img.shields.io/badge/SQL-4479A1?style=flat&logo=postgresql&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat&logo=streamlit&logoColor=white)
@@ -96,7 +109,9 @@ Plataforma para profissionais de tecnologia organizarem candidaturas a vagas, cr
 
 ![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat&logo=githubactions&logoColor=white)
 ![pytest](https://img.shields.io/badge/pytest-0A9EDC?style=flat&logo=pytest&logoColor=white)
+![xUnit](https://img.shields.io/badge/xUnit-5E2B97?style=flat&logoColor=white)
 ![dbt](https://img.shields.io/badge/dbt-FF694B?style=flat&logo=dbt&logoColor=white)
 ![n8n](https://img.shields.io/badge/n8n-EA4B71?style=flat&logo=n8n&logoColor=white)
 ![Claude](https://img.shields.io/badge/Claude_API-D97757?style=flat&logo=anthropic&logoColor=white)
